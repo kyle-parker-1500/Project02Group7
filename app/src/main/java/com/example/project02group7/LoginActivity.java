@@ -43,9 +43,17 @@ public class LoginActivity extends AppCompatActivity {
 
         LiveData<User> userObserver = repository.getUserByUsername(username);
         userObserver.observe(this, user -> {
+
+            if(user == null){
+                toastMaker("User does not exist");
+                return;
+            }
+
             String password = binding.passwordLoginEditText.getText().toString();
             if(password.equals(user.getPassword())){
-                startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
+                startActivity(MainActivity.mainActivityIntentFactory(
+                        getApplicationContext(),
+                        user.getId()));
             }
             else{
                 toastMaker("Invalid password");

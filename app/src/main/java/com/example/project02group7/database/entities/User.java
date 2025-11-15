@@ -3,9 +3,11 @@ package com.example.project02group7.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.project02group7.database.RecipeDatabase;
+
 import java.util.Objects;
 
-//@Entity(tableName = DATABASE_NAME.TABLE_NAME)
+@Entity(tableName = RecipeDatabase.USER_TABLE)
 public class User {
 
     @PrimaryKey(autoGenerate = true)
