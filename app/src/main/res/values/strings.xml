@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Project02Group7</string>
+    <string name="recipes">Recipes</string>
+    <string name="acc">Acc</string>
+    <string name="settings">Settings</string>
+    <string name="home">Home</string>
 </resources>
