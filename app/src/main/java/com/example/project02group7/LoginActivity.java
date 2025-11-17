@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                 // go to LandingPageActivity for this user
                 Intent intent = LandingPageActivity.landingPageIntentFactory(getApplicationContext(), user.getUsername(), user.isAdmin());
                 startActivity(intent);
+                finish();
             }
             else{
                 toastMaker("Invalid username or password");
