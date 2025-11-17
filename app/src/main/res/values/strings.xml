@@ -16,4 +16,5 @@
     <string name="mainactivity_loggedin">Not currently logged in</string>
     <string name="mainactivity_createaccount">Create Account</string>
     <string name="log_out">Log Out</string>
+    <string name="username_display">Username:</string>
 </resources>

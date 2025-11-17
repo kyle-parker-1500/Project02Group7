@@ -21,7 +21,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.example.project02group7.LANDING_PAGE_ACTIVITY_USER_ID";
     private ActivityLandingPageBinding binding;
     private RecipeRepository repository;
-    LiveData<User> username;
+    private String username;
     boolean isAdmin;
     private User user;
     @Override
@@ -39,12 +39,19 @@ public class LandingPageActivity extends AppCompatActivity {
 
         // show logged in username
         Intent intent = getIntent();
-        username = repository.getUserByUsername(intent.getStringExtra("USERNAME"));
+        username = intent.getStringExtra("USERNAME");
         isAdmin = intent.getBooleanExtra("IS_ADMIN", false);
 
         TextView usernameTextView = binding.UsernameTextView;
-        usernameTextView.setText(String.format("%s", username));
+        LiveData<User> usernameObserver = repository.getUserByUsername(username);
+        usernameObserver.observe(this, user -> {
+            if (user != null) {
+                usernameTextView.setText(user.getUsername());
+            }
+        });
 
+
+        // show is admin
         TextView isAdminTextView = binding.IsAdminTextView;
         if (isAdmin) {
             isAdminTextView.setText("Yes");
@@ -52,7 +59,6 @@ public class LandingPageActivity extends AppCompatActivity {
             isAdminTextView.setText("No");
         }
 
-        // show is admin
         // implement functionality for logout button
         Button logoutButton = binding.LogoutButton;
         logoutButton.setOnClickListener(new View.OnClickListener() {

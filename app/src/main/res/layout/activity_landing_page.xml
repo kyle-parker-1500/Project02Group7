@@ -5,19 +5,32 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/UsernameTextView"
-        android:layout_width="match_parent"
+        android:id="@+id/UsernameDisplayTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginTop="168dp"
-        android:gravity="center"
-        android:text="@string/landing_username"
+        android:text="@string/username_display"
         android:textColor="@color/black"
+        android:gravity="center"
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/AdminDisplayTextView"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/UsernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/landing_username"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/UsernameDisplayTextView"
+        />
 
     <TextView
         android:id="@+id/AdminDisplayTextView"
@@ -42,7 +55,6 @@
         android:text="@string/landing_IsAdmin"
         android:textColor="@color/black"
         android:textSize="40sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/AdminDisplayTextView"
         app:layout_constraintStart_toStartOf="parent"
