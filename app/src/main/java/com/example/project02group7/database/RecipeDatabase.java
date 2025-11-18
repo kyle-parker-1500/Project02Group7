@@ -30,7 +30,8 @@ public abstract class RecipeDatabase extends RoomDatabase {
 
     // says: create service to supply threads
     // create @ startup and put in pool -> DB will have max of 4 threads
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     // singleton: only one instance of UserDB exists at any one time
     static RecipeDatabase getDatabase(final Context context) {
@@ -66,7 +67,7 @@ public abstract class RecipeDatabase extends RoomDatabase {
                 UserDAO dao = INSTANCE.userDAO();
                 dao.deleteAll();
 
-                User admin = new User("admin1", "admin1");
+                User admin = new User("admin2", "admin2");
                 admin.setAdmin(true);
                 dao.insert(admin);
 

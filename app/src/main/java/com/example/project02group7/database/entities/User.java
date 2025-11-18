@@ -5,25 +5,20 @@ import androidx.room.PrimaryKey;
 
 import com.example.project02group7.database.RecipeDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = RecipeDatabase.USER_TABLE)
 public class User {
-    @PrimaryKey
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String username;
     private String password;
-    private List<Integer> postIds;
     private boolean isAdmin;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.postIds = new ArrayList<>();
-
-        // don't want every user to be admin
         isAdmin = false;
     }
 
@@ -31,12 +26,14 @@ public class User {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && isAdmin == user.isAdmin && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(postIds, user.postIds);
+        return id == user.id && isAdmin == user.isAdmin
+                && Objects.equals(username, user.username)
+                && Objects.equals(password, user.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, postIds, isAdmin);
+        return Objects.hash(id, username, password, isAdmin);
     }
 
     public int getId() {
@@ -61,14 +58,6 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<Integer> getPostIds() {
-        return postIds;
-    }
-
-    public void setPostIds(List<Integer> postIds) {
-        this.postIds = postIds;
     }
 
     public boolean isAdmin() {
