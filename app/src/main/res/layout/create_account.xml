@@ -11,10 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center"
         android:text="Create Account"
         android:textColor="@color/black"
-        android:textSize="32sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +24,10 @@
     <EditText
         android:id="@+id/usernameCreateAccountEditText"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_height="85dp"
         android:autofillHints="username"
-        android:gravity="center"
         android:hint="Username..."
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/createAccountTextView" />
@@ -35,23 +35,23 @@
     <EditText
         android:id="@+id/passwordCreateAccountEditText"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="85dp"
         android:autofillHints="password"
-        android:gravity="center"
         android:hint="Password..."
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/usernameCreateAccountEditText" />
 
     <Button
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:text="Create Account"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordCreateAccountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/my_button_color" />
+        android:backgroundTint="@color/my_button_color"
+        android:text="Create Account"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordCreateAccountEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
