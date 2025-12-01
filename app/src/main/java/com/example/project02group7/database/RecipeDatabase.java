@@ -21,6 +21,8 @@ import java.util.concurrent.Executors;
 @Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
     public static final String USER_TABLE = "userTable";
+    // todo: implement recipe table
+    public static final String RECIPE_TABLE = "recipeTable";
     private static final String DATABASE_NAME = "RecipeDatabase";
     // names of tables go here:
 
