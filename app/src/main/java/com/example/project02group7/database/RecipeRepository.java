@@ -5,7 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.project02group7.OldActivities.MainActivity;
+import com.example.project02group7.MainActivity;
 import com.example.project02group7.database.entities.User;
 
 import java.util.List;

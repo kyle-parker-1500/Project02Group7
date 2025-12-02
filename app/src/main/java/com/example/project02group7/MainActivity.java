@@ -9,12 +9,23 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.project02group7.database.RecipeRepository;
+import com.example.project02group7.database.entities.User;
 import com.example.project02group7.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String TAG = "GROUP07_RECIPE";
+    private static final String MAIN_ACTIVITY_USER_ID =
+            "com.example.project02group7.MAIN_ACTIVITY_USER_ID";
+    static final String SHARED_PREFERENCE_USERID_KEY =
+            "com.example.project02group7.SHARED_PREFERENCE_USERID_KEY";
+    static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.project02group7.SAVED_INSTANCE_STATE_USERID_KEY";
+    private static final int LOGGED_OUT = -1;
     private ActivityMainBinding binding;
+    private RecipeRepository repository;
+    private int loggedInUserId = LOGGED_OUT;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
