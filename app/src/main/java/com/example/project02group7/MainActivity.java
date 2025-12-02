@@ -37,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         // Create instances of existing fragments
-        Fragment home = new HomeFragment();
-        Fragment recipes = new RecipeFragment();
-        Fragment account = new AccountFragment();
-        Fragment settings = new SettingsFragment();
+        Fragment homeFragment = new HomeFragment();
+        Fragment recipeFragment = new RecipeFragment();
+        Fragment accountFragment = new AccountFragment();
+        Fragment settingsFragment = new SettingsFragment();
 
         // set initial fragment
-        setCurrentFragment(home);
+        setCurrentFragment(homeFragment);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
         // handle bottom nav user selection
@@ -51,13 +51,13 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.home) {
-                setCurrentFragment(home);
+                setCurrentFragment(homeFragment);
             } else if (id == R.id.recipe) {
-                setCurrentFragment(recipes);
+                setCurrentFragment(recipeFragment);
             } else if (id == R.id.profile) {
-                setCurrentFragment(account);
+                setCurrentFragment(accountFragment);
             } else if (id == R.id.setting) {
-                setCurrentFragment(settings);
+                setCurrentFragment(settingsFragment);
             }
             return true;
         });
