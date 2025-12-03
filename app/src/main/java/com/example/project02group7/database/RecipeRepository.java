@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class RecipeRepository {
+    private
     private final UserDAO userDAO;
 //    private ArrayList<String> allUsers;
 
@@ -48,6 +49,11 @@ public class RecipeRepository {
         return null;
     }
 
+    /**
+     * Description: A void method that inserts any number of users passed into the database.
+     * Each new user added will generate a unique UserId.
+     * @param user a User object
+     */
     public void insertUser(User... user) {
         RecipeDatabase.databaseWriteExecutor.execute(() -> {
             userDAO.insert(user);
@@ -55,14 +61,30 @@ public class RecipeRepository {
     }
 
     // may not want this public
+
+    /**
+     * Description: Gets a list of all users in the database.
+     * @return LiveData<List<User>>
+     */
     public LiveData<List<User>> getListOfAllUsers() {
         return userDAO.getAllUsers();
     }
 
+    /**
+     * Description: A method that takes a String username and returns a user of type
+     * LiveData<User> from the Database.
+     * @param username a String
+     * @return LiveData<User>
+     */
     public LiveData<User> getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
     }
 
+    /**
+     * Description: A method that takes an int userId and returns a LiveData<User> user.
+     * @param userId an int
+     * @return LiveData<User>
+     */
     public LiveData<User> getUserByUserId(int userId) {
         return userDAO.getUserByUserId(userId);
     }
