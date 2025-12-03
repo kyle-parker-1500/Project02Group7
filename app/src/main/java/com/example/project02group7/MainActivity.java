@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // after loginUser called and info updated
+        // todo: update this to be inside else statement - maybe (check with debug)
         updateSharedPreference();
 
         // login button
