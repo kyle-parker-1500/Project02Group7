@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
@@ -40,8 +39,6 @@ public class LoginActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
-
-        // binding.createAccountButton.setOnClickListener (when needed?)
     }
 
     /*
@@ -52,10 +49,16 @@ public class LoginActivity extends AppCompatActivity {
         all fine? Go to MainActivity with that UID
      */
     public void verifyUser(){
-        final String username = binding.userNameLoginEditText.getText().toString().trim();
+        final String usernameInput = binding.userNameLoginEditText.getText().toString().trim();
+        final String passwordInput = binding.passwordLoginEditText.getText().toString();
 
-        if(username.isEmpty()){
+        if(usernameInput.isEmpty()){
             toastMaker("Username cannot be blank");
+            return;
+        }
+
+        if(passwordInput.isEmpty()){
+            toastMaker("Password cannot be blank");
             return;
         }
 
@@ -64,36 +67,28 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // observer watching db username
-        LiveData<User> userObserver = repository.getUserByUsername(username);
-        userObserver.observe(this, user -> {
-
-            // username not found
+        LiveData<User> userLiveData = repository.getUserByUsername(usernameInput);
+        userLiveData.observe(this, user -> {
             if(user == null){
-                toastMaker(String.format("%s is not a valid username", username));
-                binding.userNameLoginEditText.setSelection(0);
+                toastMaker("User not found");
                 return;
             }
-            // Username exists, password check
-            String password = binding.passwordLoginEditText.getText().toString();
 
-            // now checking for username & password to be correct
-            if(username.equals(user.getUsername()) && password.equals(user.getPassword())){
-
-                // go to LandingPageActivity for this user
-                Intent intent = LandingPageActivity.landingPageIntentFactory(getApplicationContext(), user.getUsername(), user.isAdmin());
-                startActivity(intent);
-
-                // update sharedPreferences with userId
-                updateSharedPreference(username);
-
-                // close this activity
-                finish();
+            if(!user.getPassword().equals(passwordInput)){
+                toastMaker("Incorrect Password");
+                return;
             }
-            else{
-                toastMaker("Invalid username or password");
-                binding.passwordLoginEditText.setSelection(0);
-            }
+
+            boolean isAdmin = user.isAdmin();
+
+            Intent intent = LandingPageActivity.landingPageIntentFactory(
+                    getApplicationContext(),
+                    user.getUsername(),
+                    isAdmin
+            );
+            startActivity(intent);
+            updateSharedPreference(usernameInput);
+            finish();
         });
     }
 

@@ -80,7 +80,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 clearUserFromSharedPreferences();
 
                 Intent backToMain = MainActivity.mainActivityIntentFactory(
-                        getApplicationContext(), user.getId()
+                        getApplicationContext(), -1
                 );
                 backToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(backToMain);
