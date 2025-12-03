@@ -12,8 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project02Group7">
         <activity
+            android:name=".LandingPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
