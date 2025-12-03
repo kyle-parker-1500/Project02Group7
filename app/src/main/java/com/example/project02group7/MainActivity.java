@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String MAIN_ACTIVITY_USER_ID =
             "com.example.project02group7.MAIN_ACTIVITY_USER_ID";
     static final String SHARED_PREFERENCE_USERID_KEY =
-            "com.example.project02group7.SHARED_PREFERENCE_USERID_KEY";
+           "com.example.project02group7.SHARED_PREFERENCE_USERID_KEY";
+    //todo: figure out where saved_instance_state_userid_key is pulling from -kyle
+    static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.project02group7.SAVED_INSTANCE_STATE_USERID_KEY";
     private static final int LOGGED_OUT = -1;
     private ActivityMainBinding binding;
     private RecipeRepository repository;
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
             loginUser(savedInstanceState);
         }
 
+        // after loginUser called and info updated
+        updateSharedPreference();
+
         // login button
         Button loginButton = binding.MainActivityLoginButton;
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 // send to login page
                 Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
                 startActivity(intent);
+                updateSharedPreference();
             }
         });
 
@@ -94,11 +100,12 @@ public class MainActivity extends AppCompatActivity {
     private void loginUser(Bundle savedInstanceState) {
 
         // Try SharedPreferences
-        SharedPreferences sharedPreferences = getSharedPreferences(
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE
         );
 
+        // get check sharedPreferences saved userId
         loggedInUserId = sharedPreferences.getInt(
                 getString(R.string.preference_userId_key),
                 LOGGED_OUT
@@ -109,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 && savedInstanceState != null
                 && savedInstanceState.containsKey(SHARED_PREFERENCE_USERID_KEY)){
             loggedInUserId = savedInstanceState.getInt(
-                    SHARED_PREFERENCE_USERID_KEY,
+                    SAVED_INSTANCE_STATE_USERID_KEY,
                     LOGGED_OUT
             );
         }
@@ -130,16 +137,19 @@ public class MainActivity extends AppCompatActivity {
 
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
         userObserver.observe(this, user -> {
+            this.user = user;
             if(user != null){
                 invalidateOptionsMenu();
             }
         });
+        // after login info changed
+        updateSharedPreference();
     }
 
     /*
         Saves the current loggedInUserId into SharedPreferences so it persists
         between app launches
-     */
+    */
     private void updateSharedPreference(){
         SharedPreferences sharedPreferences = getApplication()
                 .getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);

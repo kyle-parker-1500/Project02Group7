@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
@@ -82,7 +83,11 @@ public class LoginActivity extends AppCompatActivity {
                 // go to LandingPageActivity for this user
                 Intent intent = LandingPageActivity.landingPageIntentFactory(getApplicationContext(), user.getUsername(), user.isAdmin());
                 startActivity(intent);
-                // close activity
+
+                // update sharedPreferences with userId
+                updateSharedPreference(username);
+
+                // close this activity
                 finish();
             }
             else{
@@ -98,5 +103,31 @@ public class LoginActivity extends AppCompatActivity {
 
     static Intent loginIntentFactory(Context context){
         return new Intent(context, LoginActivity.class);
+    }
+
+    // need to update shared preferences where they are being changed for persistence
+    private void updateSharedPreference(String username) {
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        // need a way to access username
+        int userId = getUserIdByUsername(username);
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key), userId);
+        sharedPrefEditor.apply();
+    }
+
+    /**
+     * Method for finding userid by username in database.
+     * @return int - userId
+     */
+    private int getUserIdByUsername(String username) {
+        // returns LiveData, need it to convert to int
+        int userId;
+        User dbUserId = repository.getUserByUsername(username).getValue();
+
+        // get user id
+        assert dbUserId != null;
+        userId = dbUserId.getId();
+
+        return userId;
     }
 }
