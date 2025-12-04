@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     static final String SHARED_PREFERENCE_USERID_KEY =
             "com.example.project02group7.SHARED_PREFERENCE_USERID_KEY";
     //todo: figure out where saved_instance_state_userid_key is pulling from -kyle
+    // Kyle, it literally says "com.example.project02group7" before they key itself
     static final String SAVED_INSTANCE_STATE_USERID_KEY =
             "com.example.project02group7.SAVED_INSTANCE_STATE_USERID_KEY";
     private static final int LOGGED_OUT = -1;
@@ -53,8 +54,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Sees if someone is already logged in
         loginUser(savedInstanceState);
 
+        /*
+        * If loginUser has a logged-in user, it will go to LandingPageActivity
+        * Otherwise, it will run the code below
+        */
         TextView isLoggedIn = binding.CurrentlyLoggedInTextView;
         isLoggedIn.setText("Not currently logged in");
 
@@ -126,12 +132,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // 4 -> Still logged out? Go to LoginActivity
+        // 4 -> Still logged out? return and show MainActivity
         if (loggedInUserId == LOGGED_OUT){
             return;
         }
 
-        // 5 -> We have a valid userId = observe the user
+        // 5 -> We have a valid userId = observe the user and go to Landing Page
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
         userObserver.observe(this, user ->{
             if(user == null){
