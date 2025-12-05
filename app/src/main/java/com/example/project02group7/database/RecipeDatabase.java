@@ -20,6 +20,11 @@ import com.example.project02group7.database.typeConverters.LocalDateTypeConverte
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 @TypeConverters(LocalDateTypeConverter.class)
 @Database(entities = {
         User.class,
@@ -46,6 +51,10 @@ public abstract class RecipeDatabase extends RoomDatabase {
     // create @ startup and put in pool -> DB will have max of 4 threads
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
+    // api call objects: OkHttp
+    static OkHttpClient client = new OkHttpClient();
+    static Request request = new Request.Builder().url("http://127.0.0.1:8000/recipes").build();
 
     // singleton: only one instance of UserDB exists at any one time
     static RecipeDatabase getDatabase(final Context context) {
@@ -92,6 +101,21 @@ public abstract class RecipeDatabase extends RoomDatabase {
 
                 User testUser1 = new User("testuser1", "testuser1");
                 userDao.insert(testUser1);
+
+                // add recipes to database using okhttp
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        // using new thread to run on
+                        Recipe
+
+                        // write to db on executor thread (switch back to it)
+                        databaseWriteExecutor.execute(() -> {
+                            recipeDao.insert(recipe);
+                        });
+
+                    }
+                });
             });
         }
     };

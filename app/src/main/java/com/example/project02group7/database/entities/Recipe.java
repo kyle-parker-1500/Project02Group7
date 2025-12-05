@@ -19,7 +19,6 @@ public class Recipe {
     @PrimaryKey(autoGenerate = true) // generates unique ids when something is added
     private int id;
     private String title;
-    private String description;
     //todo: implement this later (don't forget to update erd) -> private String imageFile;
     private String instructions;
     // may want ingredients to be an List or ArrayList not String
@@ -28,7 +27,6 @@ public class Recipe {
     public Recipe() {
         // don't want to be able to change these outside of the db
         title = "";
-        description = "";
         instructions = "";
         ingredients = "";
     }
