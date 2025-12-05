@@ -33,6 +33,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private Fragment recipeFragment;
     private Fragment accountFragment;
     private Fragment settingsFragment;
+    private Fragment adminFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class LandingPageActivity extends AppCompatActivity {
         recipeFragment = new RecipeFragment();
         accountFragment = AccountFragment.newInstance(username, isAdmin);
         settingsFragment = new SettingsFragment();
+        adminFragment = new AdminFragment();
 
         // Initial Fragment
         setCurrentFragment(homeFragment);
@@ -106,5 +108,9 @@ public class LandingPageActivity extends AppCompatActivity {
         intent.putExtra("USERNAME", username);
         intent.putExtra("IS_ADMIN", admin);
         return intent;
+    }
+
+    public void openAdminFragment(){
+        setCurrentFragment(adminFragment);
     }
 }

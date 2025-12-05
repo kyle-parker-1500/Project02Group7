@@ -66,9 +66,17 @@ public class AccountFragment extends Fragment {
             startActivity(backToMain);
             requireActivity().finish();
         });
-
+        /*
+        *   !requireActivity() gives us the Activity that is hosting the Fragment!
+        *   Get the activity that hosting the fragment, casting it into a LandingPageActivity
+        *   That lets us call openAdminFragment, because the fragment is only placed
+        *   inside of LandingPageActivity
+        */
         adminButton.setOnClickListener(v ->{
-            // TODO: open adm screen
+            if(getActivity() instanceof LandingPageActivity){
+                LandingPageActivity activity = (LandingPageActivity) getActivity();
+                activity.openAdminFragment();
+            }
         });
 
         // inflate layout

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Project02Group7">
         <activity
+            android:name=".AdminFragment"
+            android:exported="false" />
+        <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
