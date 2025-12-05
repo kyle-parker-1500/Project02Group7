@@ -40,7 +40,7 @@ import okhttp3.Response;
         UserLikedRecipes.class,
         UserSavedRecipes.class
         },
-        version = 3, // updated from v1
+        version = 4, // updated from v1
         exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
     public static final String USER_TABLE = "userTable";
@@ -59,10 +59,6 @@ public abstract class RecipeDatabase extends RoomDatabase {
     // create @ startup and put in pool -> DB will have max of 4 threads
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
-
-    // api call objects: OkHttp
-    static OkHttpClient client = new OkHttpClient();
-    static Request request = new Request.Builder().url("http://127.0.0.1:8000/recipes").build();
 
     // singleton: only one instance of UserDB exists at any one time
     static RecipeDatabase getDatabase(final Context context) {
@@ -95,6 +91,9 @@ public abstract class RecipeDatabase extends RoomDatabase {
             super.onCreate(db);
             Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
+                // debugging
+                Log.i(MainActivity.TAG, "About to make API call");
+
                 UserDAO userDao = INSTANCE.userDAO();
                 RecipeDAO recipeDao = INSTANCE.recipeDAO();
                 UserLikedRecipesDAO likedDao = INSTANCE.userLikedRecipesDAO();
@@ -110,9 +109,16 @@ public abstract class RecipeDatabase extends RoomDatabase {
                 User testUser1 = new User("testuser1", "testuser1");
                 userDao.insert(testUser1);
 
+                // api call objects: OkHttp
+                OkHttpClient client = new OkHttpClient();
+                Request request = new Request.Builder().url("http://10.0.2.2:8000/recipes").build();
+
                 // add recipes to database using okhttp
                 client.newCall(request).enqueue(new okhttp3.Callback() {
                     public void onResponse(Call call, Response response) {
+                        // debugging
+                        Log.i(MainActivity.TAG, "API call succeeded!");
+
                         // define recipe columns
                         String title, ingredients, instructions;
                         // define recipe object
