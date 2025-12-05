@@ -17,10 +17,18 @@ import com.example.project02group7.database.entities.UserLikedRecipes;
 import com.example.project02group7.database.entities.UserSavedRecipes;
 import com.example.project02group7.database.typeConverters.LocalDateTypeConverter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -103,17 +111,48 @@ public abstract class RecipeDatabase extends RoomDatabase {
                 userDao.insert(testUser1);
 
                 // add recipes to database using okhttp
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
+                client.newCall(request).enqueue(new okhttp3.Callback() {
                     public void onResponse(Call call, Response response) {
+                        // define recipe columns
+                        String title, ingredients, instructions;
+                        // define recipe object
+                        Recipe recipe;
+                        List<Recipe> recipes = new ArrayList<>();
+
                         // using new thread to run on
-                        Recipe
+                        try {
+                            // getting initial json from api & parsing out recipes dict
+                            String jsonResponse = response.body().string();
+                            JSONObject jsonObject = new JSONObject(jsonResponse);
+                            JSONArray recipesArray = jsonObject.getJSONArray("recipes");
 
-                        // write to db on executor thread (switch back to it)
-                        databaseWriteExecutor.execute(() -> {
-                            recipeDao.insert(recipe);
-                        });
+                            for (int i = 0; i < recipesArray.length(); i++) {
+                                JSONObject recipeJson = recipesArray.getJSONObject(i);
 
+                                // parse data from object
+                                title = recipeJson.getString("Title");
+                                ingredients = recipeJson.getString("Ingredients");
+                                instructions = recipeJson.getString("Instructions");
+
+                                // create recipe object from current data
+                                recipe = new Recipe(title, ingredients, instructions);
+
+                                // add recipe to array
+                                recipes.add(recipe);
+                            }
+
+                            // write to db on executor thread (switch back to it)
+                            databaseWriteExecutor.execute(() -> {
+                                recipeDao.insert(recipes.toArray(new Recipe[0]));
+                            });
+                        } catch(IOException | JSONException e) {
+                            Log.e(MainActivity.TAG, "Error parsing JSON Recipes");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                        Log.e(MainActivity.TAG, "Failed to fetch recipes from recipes API", e);
                     }
                 });
             });

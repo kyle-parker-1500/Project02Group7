@@ -24,11 +24,11 @@ public class Recipe {
     // may want ingredients to be an List or ArrayList not String
     private String ingredients;
 
-    public Recipe() {
+    public Recipe(String title, String instructions, String ingredients) {
         // don't want to be able to change these outside of the db
-        title = "";
-        instructions = "";
-        ingredients = "";
+        this.title = title;
+        this.instructions = instructions;
+        this.ingredients = ingredients;
     }
 
     @Override
