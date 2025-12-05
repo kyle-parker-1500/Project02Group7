@@ -35,15 +35,13 @@ public class Recipe {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(instructions, recipe.instructions) && Objects.equals(ingredients, recipe.ingredients);
+        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(instructions, recipe.instructions) && Objects.equals(ingredients, recipe.ingredients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, instructions, ingredients);
+        return Objects.hash(id, title, instructions, ingredients);
     }
-
-    // todo: determine if setters are needed here
 
     public int getId() {
         return id;
@@ -59,14 +57,6 @@ public class Recipe {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getInstructions() {
