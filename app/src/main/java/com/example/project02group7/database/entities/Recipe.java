@@ -19,33 +19,29 @@ public class Recipe {
     @PrimaryKey(autoGenerate = true) // generates unique ids when something is added
     private int id;
     private String title;
-    private String description;
     //todo: implement this later (don't forget to update erd) -> private String imageFile;
     private String instructions;
     // may want ingredients to be an List or ArrayList not String
     private String ingredients;
 
-    public Recipe() {
+    public Recipe(String title, String instructions, String ingredients) {
         // don't want to be able to change these outside of the db
-        title = "";
-        description = "";
-        instructions = "";
-        ingredients = "";
+        this.title = title;
+        this.instructions = instructions;
+        this.ingredients = ingredients;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(instructions, recipe.instructions) && Objects.equals(ingredients, recipe.ingredients);
+        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(instructions, recipe.instructions) && Objects.equals(ingredients, recipe.ingredients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, instructions, ingredients);
+        return Objects.hash(id, title, instructions, ingredients);
     }
-
-    // todo: determine if setters are needed here
 
     public int getId() {
         return id;
@@ -61,14 +57,6 @@ public class Recipe {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getInstructions() {
