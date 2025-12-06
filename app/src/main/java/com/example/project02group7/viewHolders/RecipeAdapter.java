@@ -1,5 +1,6 @@
 package com.example.project02group7.viewHolders;
 
+import android.content.Context;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, RecipeViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe current = getItem(position);
-        holder.bind(current);
+        holder.bind(current, holder.itemView.getContext());
     }
 
     public static class RecipeDiff extends DiffUtil.ItemCallback<Recipe> {

@@ -17,9 +17,9 @@ public class InnerRecipeViewHolder extends RecyclerView.ViewHolder {
     private final TextView instructionsViewItem;
     private InnerRecipeViewHolder(@NonNull View recipeView) {
         super(recipeView);
-        titleViewItem = recipeView.findViewById(R.id.titleRecipeReyclerTextView);
-        ingredientViewItem = recipeView.findViewById(R.id.ingredientsRecipeRecyclerTextView);
-        instructionsViewItem = recipeView.findViewById(R.id.instructionsRecipeRecyclerTextView);
+        titleViewItem = recipeView.findViewById(R.id.innerRecipeTitle);
+        ingredientViewItem = recipeView.findViewById(R.id.innerRecipeIngredients);
+        instructionsViewItem = recipeView.findViewById(R.id.innerRecipeInstructions);
     }
 
     /**
