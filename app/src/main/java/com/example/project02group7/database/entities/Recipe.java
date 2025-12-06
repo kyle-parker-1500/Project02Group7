@@ -20,15 +20,15 @@ public class Recipe {
     private int id;
     private String title;
     //todo: implement this later (don't forget to update erd) -> private String imageFile;
+    private String ingredients;
     private String instructions;
     // may want ingredients to be an List or ArrayList not String
-    private String ingredients;
 
-    public Recipe(String title, String instructions, String ingredients) {
+    public Recipe(String title, String ingredients, String instructions) {
         // don't want to be able to change these outside of the db
         this.title = title;
-        this.instructions = instructions;
         this.ingredients = ingredients;
+        this.instructions = instructions;
     }
 
     @Override
