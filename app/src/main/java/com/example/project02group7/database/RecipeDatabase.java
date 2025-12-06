@@ -111,10 +111,12 @@ public abstract class RecipeDatabase extends RoomDatabase {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder().url("http://10.0.2.2:8000/recipes").build();
 
+                Log.i(MainActivity.TAG, "Before call to API");
                 // add recipes to database using okhttp
                 client.newCall(request).enqueue(new okhttp3.Callback() {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
+                        Log.i(MainActivity.TAG, "API query success!");
                         // define recipe columns
                         String title, ingredients, instructions;
                         // define recipe object
