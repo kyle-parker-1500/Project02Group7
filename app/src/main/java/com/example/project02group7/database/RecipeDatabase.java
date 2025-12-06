@@ -40,11 +40,10 @@ import okhttp3.Response;
         UserLikedRecipes.class,
         UserSavedRecipes.class
         },
-        version = 5, // updated from v1
+        version = 6, // update when db is changed
         exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
     public static final String USER_TABLE = "userTable";
-    // todo: implement next three tables
     public static final String RECIPE_TABLE = "recipeTable";
     public static final String USER_SAVED_RECIPES_TABLE = "userSavedRecipesTable";
     public static final String USER_LIKED_RECIPES_TABLE = "userLikedRecipesTable";
@@ -137,6 +136,19 @@ public abstract class RecipeDatabase extends RoomDatabase {
                                 title = recipeJson.getString("Title");
                                 ingredients = recipeJson.getString("Ingredients");
                                 instructions = recipeJson.getString("Instructions");
+
+                                // parse & format ingredients (get rid of all brackets & quotes)
+                                ingredients = ingredients.replace("[","").replace("]","").replace("'", "");
+                                String[] tempIngredientsArray = ingredients.split(",");
+
+                                // convert to bullet points
+                                StringBuilder sb = new StringBuilder();
+                                for (String ingredient : tempIngredientsArray) {
+                                    sb.append("• ").append(ingredient.trim()).append("\n");
+                                }
+
+                                // put formatted string back in ingredients
+                                ingredients = sb.toString();
 
                                 // create recipe object from current data
                                 recipe = new Recipe(title, ingredients, instructions);

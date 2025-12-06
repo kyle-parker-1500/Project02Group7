@@ -5,6 +5,8 @@ import androidx.room.PrimaryKey;
 
 import com.example.project02group7.database.RecipeDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity(tableName = RecipeDatabase.RECIPE_TABLE)
@@ -25,7 +27,6 @@ public class Recipe {
     // may want ingredients to be an List or ArrayList not String
 
     public Recipe(String title, String ingredients, String instructions) {
-        // don't want to be able to change these outside of the db
         this.title = title;
         this.ingredients = ingredients;
         this.instructions = instructions;
@@ -35,12 +36,12 @@ public class Recipe {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(instructions, recipe.instructions) && Objects.equals(ingredients, recipe.ingredients);
+        return id == recipe.id && Objects.equals(title, recipe.title) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(instructions, recipe.instructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, instructions, ingredients);
+        return Objects.hash(id, title, ingredients, instructions);
     }
 
     public int getId() {
@@ -59,19 +60,19 @@ public class Recipe {
         this.title = title;
     }
 
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
     public String getIngredients() {
         return ingredients;
     }
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }
