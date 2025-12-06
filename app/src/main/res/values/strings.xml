@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Project02Group7</string>
+    <string name="app_name">RecipeTok</string>
     <string name="logged_in">LOGGED IN</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
