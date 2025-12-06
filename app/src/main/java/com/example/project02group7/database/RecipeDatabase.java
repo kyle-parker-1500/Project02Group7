@@ -40,11 +40,10 @@ import okhttp3.Response;
         UserLikedRecipes.class,
         UserSavedRecipes.class
         },
-        version = 4, // updated from v1
+        version = 6, // update when db is changed
         exportSchema = false)
 public abstract class RecipeDatabase extends RoomDatabase {
     public static final String USER_TABLE = "userTable";
-    // todo: implement next three tables
     public static final String RECIPE_TABLE = "recipeTable";
     public static final String USER_SAVED_RECIPES_TABLE = "userSavedRecipesTable";
     public static final String USER_LIKED_RECIPES_TABLE = "userLikedRecipesTable";
@@ -111,10 +110,12 @@ public abstract class RecipeDatabase extends RoomDatabase {
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder().url("http://10.0.2.2:8000/recipes").build();
 
+                Log.i(MainActivity.TAG, "Before call to API");
                 // add recipes to database using okhttp
                 client.newCall(request).enqueue(new okhttp3.Callback() {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
+                        Log.i(MainActivity.TAG, "API query success!");
                         // define recipe columns
                         String title, ingredients, instructions;
                         // define recipe object
@@ -135,6 +136,20 @@ public abstract class RecipeDatabase extends RoomDatabase {
                                 title = recipeJson.getString("Title");
                                 ingredients = recipeJson.getString("Ingredients");
                                 instructions = recipeJson.getString("Instructions");
+
+                                // parse & format ingredients (get rid of all brackets & quotes)
+                                ingredients = ingredients.replace("[","").replace("]","");
+                                String[] tempIngredientsArray = ingredients.split("', '");
+
+                                // convert to bullet points
+                                StringBuilder sb = new StringBuilder();
+                                for (String ingredient : tempIngredientsArray) {
+                                    String cleanIngredient = ingredient.replace("'", "");
+                                    sb.append("• ").append(cleanIngredient).append("\n");
+                                }
+
+                                // put formatted string back in ingredients
+                                ingredients = sb.toString();
 
                                 // create recipe object from current data
                                 recipe = new Recipe(title, ingredients, instructions);
