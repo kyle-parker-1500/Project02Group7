@@ -19,7 +19,7 @@ public class RecipeViewModel extends AndroidViewModel {
         repository = RecipeRepository.getRepository(application);
     }
 
-    public LiveData<List<Recipe>> getAllRecipesById() {
+    public LiveData<List<Recipe>> getListOfAllRecipes() {
         //todo: This might be where we want to randomize the selection of recipes to display to recycler view
         return repository.getListOfAllRecipes();
     }

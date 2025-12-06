@@ -22,7 +22,7 @@ public class RecipeAdapter extends ListAdapter<Recipe, RecipeViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe current = getItem(position);
-        holder.bind(current.toString());
+        holder.bind(current);
     }
 
     public static class RecipeDiff extends DiffUtil.ItemCallback<Recipe> {
