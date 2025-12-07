@@ -9,6 +9,7 @@ import com.example.project02group7.MainActivity;
 import com.example.project02group7.database.entities.Recipe;
 import com.example.project02group7.database.entities.User;
 import com.example.project02group7.database.entities.UserLikedRecipes;
+import com.example.project02group7.database.entities.UserSavedRecipes;
 
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -146,6 +147,17 @@ public class RecipeRepository {
     public void insertUserLikedRecipes(UserLikedRecipes... userLikedRecipes) {
         RecipeDatabase.databaseWriteExecutor.execute(() -> {
             userLikedRecipesDAO.insert(userLikedRecipes);
+        });
+    }
+
+    /**
+     * Description: A method that takes any number of recipes saved by a user and inserts them into the userSaved recipe
+     * table of the database.
+     * @param userSavedRecipes a Recipe
+     */
+    public void insertUserSavedRecipes(UserSavedRecipes... userSavedRecipes) {
+        RecipeDatabase.databaseWriteExecutor.execute(() -> {
+            userSavedRecipesDAO.insert(userSavedRecipes);
         });
     }
 

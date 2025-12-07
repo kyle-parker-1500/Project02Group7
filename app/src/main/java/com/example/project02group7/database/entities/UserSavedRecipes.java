@@ -16,19 +16,19 @@ import java.util.Objects;
                 @ForeignKey(
                         entity = User.class, // parent class
                         parentColumns = "id", // pk in parent
-                        childColumns = "UserId", // fk in child (this class)
+                        childColumns = "userId", // fk in child (this class)
                         onDelete = ForeignKey.CASCADE // if parent column deleted child cols deleted too
                 ),
                 @ForeignKey(
                         entity = Recipe.class,
                         parentColumns = "id",
-                        childColumns = "RecipeId",
+                        childColumns = "recipeId",
                         onDelete = ForeignKey.CASCADE
                 )
         },
         indices = {
-                @Index(value = "UserId"),
-                @Index(value = "RecipeId")
+                @Index(value = "userId"),
+                @Index(value = "recipeId")
         }
 )
 public class UserSavedRecipes {
@@ -38,31 +38,30 @@ public class UserSavedRecipes {
     private int id; // SavedId in ERD
 
     // @Index allows for fast lookup of ids
-    private int UserId;
-    private int RecipeId;
-    private String instructions;
+    private int userId;
+    private int recipeId;
     private String ingredients;
+    private String instructions;
     // todo: consider adding imageUrl / timestamp (for later)
 
-    // todo: need to list instructions & ingredients somehow
 
-    // todo: double check if other variables need to be initialized in constructor (think they're initialized elsewhere)
-    public UserSavedRecipes() {
-        // initialize only what may be null
-        instructions = "";
-        ingredients = "";
+    public UserSavedRecipes(int userId, int recipeId, String ingredients, String instructions) {
+        this.userId = userId;
+        this.recipeId = recipeId;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         UserSavedRecipes that = (UserSavedRecipes) o;
-        return id == that.id && UserId == that.UserId && RecipeId == that.RecipeId && Objects.equals(instructions, that.instructions) && Objects.equals(ingredients, that.ingredients);
+        return id == that.id && userId == that.userId && recipeId == that.recipeId && Objects.equals(ingredients, that.ingredients) && Objects.equals(instructions, that.instructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, UserId, RecipeId, instructions, ingredients);
+        return Objects.hash(id, userId, recipeId, ingredients, instructions);
     }
 
     public int getId() {
@@ -74,27 +73,19 @@ public class UserSavedRecipes {
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public int getRecipeId() {
-        return RecipeId;
+        return recipeId;
     }
 
     public void setRecipeId(int recipeId) {
-        RecipeId = recipeId;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
+        this.recipeId = recipeId;
     }
 
     public String getIngredients() {
@@ -103,5 +94,13 @@ public class UserSavedRecipes {
 
     public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }
