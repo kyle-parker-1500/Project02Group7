@@ -16,7 +16,6 @@ public class UserLikedRecipesViewHolder extends RecyclerView.ViewHolder {
     private final TextView ingredients;
     private final TextView instructions;
     private final Button deleteRecipe;
-    private final RecipeRepository repository;
 
     private UserLikedRecipesViewHolder(@NonNull View recipeView) {
         super(recipeView);
@@ -24,5 +23,9 @@ public class UserLikedRecipesViewHolder extends RecyclerView.ViewHolder {
         ingredients = recipeView.findViewById(R.id.recipeLikedIngredientsTextView);
         instructions = recipeView.findViewById(R.id.recipeLikedInstructionsTextView);
         deleteRecipe = recipeView.findViewById(R.id.deleteLikedRecipeButton);
+    }
+
+    public void bind(UserLikedRecipes recipe, int position) {
+
     }
 }

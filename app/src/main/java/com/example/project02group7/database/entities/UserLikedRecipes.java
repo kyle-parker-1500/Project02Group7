@@ -36,15 +36,14 @@ public class UserLikedRecipes {
     private int id; // LikedId in ERD
     private int userId;
     private int recipeId;
+    private String title;
     private String ingredients;
     private String instructions;
-    // todo: consider adding imageUrl / timestamp (for later)
 
-    // todo: find some way to list instructions & ingredients like SavedRecipes
-
-    public UserLikedRecipes(int userId, int recipeId, String ingredients, String instructions) {
+    public UserLikedRecipes(int userId, int recipeId, String title, String ingredients, String instructions) {
         this.userId = userId;
         this.recipeId = recipeId;
+        this.title = title;
         this.ingredients = ingredients;
         this.instructions = instructions;
     }
@@ -53,12 +52,12 @@ public class UserLikedRecipes {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         UserLikedRecipes that = (UserLikedRecipes) o;
-        return id == that.id && userId == that.userId && recipeId == that.recipeId && Objects.equals(ingredients, that.ingredients) && Objects.equals(instructions, that.instructions);
+        return id == that.id && userId == that.userId && recipeId == that.recipeId && Objects.equals(title, that.title) && Objects.equals(ingredients, that.ingredients) && Objects.equals(instructions, that.instructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, recipeId, ingredients, instructions);
+        return Objects.hash(id, userId, recipeId, title, ingredients, instructions);
     }
 
     public int getId() {
@@ -83,6 +82,14 @@ public class UserLikedRecipes {
 
     public void setRecipeId(int recipeId) {
         this.recipeId = recipeId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getIngredients() {

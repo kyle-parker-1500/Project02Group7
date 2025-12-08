@@ -163,14 +163,19 @@ public class RecipeRepository {
     }
 
     /**
-     * Description: Returns a recipe of type Recipe that is at the specified recipeId
+     * Description: Returns a recipe of type UserLikedRecipes that is at the specified recipeId
      * @param recipeId an int
-     * @return LiveData<Recipe>
+     * @return LiveData<UserLikedRecipes>
      */
     public LiveData<UserLikedRecipes> getLikedRecipeByRecipeId(int recipeId) {
         return userLikedRecipesDAO.getLikedRecipesById(recipeId);
     }
 
+    /**
+     * Description: Returns a recipe of type UserSavedRecipes that is at the specified recipeId
+     * @param recipeId an int
+     * @return LiveData<UserSavedRecipes>
+     */
     public LiveData<UserSavedRecipes> getSavedRecipeByRecipeId(int recipeId) {
         return userSavedRecipesDAO.getSavedRecipeByRecipeId(recipeId);
     }

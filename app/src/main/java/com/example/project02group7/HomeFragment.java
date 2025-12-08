@@ -78,11 +78,12 @@ public class HomeFragment extends Fragment {
 
                 int recipeId = current.getId();
                 int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+                String title = current.getTitle();
                 String ingredients = current.getIngredients();
                 String instructions = current.getInstructions();
 
                 // add current recipe to liked recipes table
-                repository.insertUserLikedRecipes(new UserLikedRecipes(userId, recipeId, ingredients, instructions));
+                repository.insertUserLikedRecipes(new UserLikedRecipes(userId, recipeId, title, ingredients, instructions));
             }
         });
         saveButton.setOnClickListener(save -> {
@@ -99,11 +100,12 @@ public class HomeFragment extends Fragment {
 
                 int recipeId = current.getId();
                 int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+                String title = current.getTitle();
                 String ingredients = current.getIngredients();
                 String instructions = current.getInstructions();
 
                 // add current recipe to liked recipes table
-                repository.insertUserSavedRecipes(new UserSavedRecipes(userId, recipeId, ingredients, instructions));
+                repository.insertUserSavedRecipes(new UserSavedRecipes(userId, recipeId, title, ingredients, instructions));
             }
         });
 
