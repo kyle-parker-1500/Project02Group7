@@ -31,7 +31,7 @@ public interface UserLikedRecipesDAO {
      * @param userId int
      * @return LiveData<List<UserLikedRecipes>>
      */
-    @Query("SELECT * from " + RecipeDatabase.USER_LIKED_RECIPES_TABLE + " WHERE userId == :userId")
+    @Query("SELECT * from " + RecipeDatabase.USER_LIKED_RECIPES_TABLE + " WHERE userId = :userId")
     LiveData<List<UserLikedRecipes>> getLikedRecipesByUserId(int userId);
 
     @Query("SELECT * from " + RecipeDatabase.USER_LIKED_RECIPES_TABLE + " WHERE id == :recipeId")
