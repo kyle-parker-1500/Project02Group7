@@ -1,5 +1,7 @@
 package com.example.project02group7;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -23,12 +25,14 @@ public class SavedRecipesFragment extends Fragment {
         // Inflate layout for fragment
         View view = inflater.inflate(R.layout.fragment_saved_recipes, container, false);
 
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+
         // Instantiate VM
         UserSavedRecipesViewModel recipeViewModel = new ViewModelProvider(this).get(UserSavedRecipesViewModel.class);
 
         // Find recycler view
         RecyclerView recyclerView = view.findViewById(R.id.savedRecipesRecyclerView);
-        final UserSavedRecipesAdapter adapter = new UserSavedRecipesAdapter(new ArrayList<>());
 
         // check if recyclerView exists
         if (recyclerView == null) {
@@ -36,11 +40,12 @@ public class SavedRecipesFragment extends Fragment {
         }
 
         // set adapter & layout manager
+        final UserSavedRecipesAdapter adapter = new UserSavedRecipesAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // observe VM
-        recipeViewModel.getListOfAllSavedRecipes().observe(getViewLifecycleOwner(), recipes -> {
+        recipeViewModel.getSavedRecipesByUserId(userId).observe(getViewLifecycleOwner(), recipes -> {
             adapter.setRecipes(recipes);
         });
 

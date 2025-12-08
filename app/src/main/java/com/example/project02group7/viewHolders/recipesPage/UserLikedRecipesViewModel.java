@@ -24,8 +24,8 @@ public class UserLikedRecipesViewModel extends AndroidViewModel {
      * Description: Gets a list of all UserLikedRecipes
      * @return LiveData<List<UserLikedRecipes>> basically a list
      */
-    public LiveData<List<UserLikedRecipes>> getListOfAllLikedRecipes() {
-        return repository.getAllUserLikedRecipes();
+    public LiveData<List<UserLikedRecipes>> getLikedRecipesByUserId(int userId) {
+        return repository.getLikedRecipesByUserId(userId);
     }
 
     /**

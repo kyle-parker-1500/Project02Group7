@@ -1,5 +1,7 @@
 package com.example.project02group7;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +25,35 @@ public class LikedRecipesFragment extends Fragment {
         // Inflate layout for fragment
         View view = inflater.inflate(R.layout.fragment_liked_recipes, container, false);
 
+        // get userId
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+
         // Instantiate VM
         UserLikedRecipesViewModel recipeViewModel = new ViewModelProvider(this).get(UserLikedRecipesViewModel.class);
 
         // Find recycler view
         RecyclerView recyclerView = view.findViewById(R.id.likedRecipesRecyclerView);
-        final UserLikedRecipesAdapter adapter = new UserLikedRecipesAdapter(new ArrayList<>());
 
-        // set adapter & layout manager
-        recyclerView.setAdapter(adapter);
+        if (recyclerView == null) {
+            return view;
+        }
+
+        // layout manager
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+
+        // adapter
+        final UserLikedRecipesAdapter adapter = new UserLikedRecipesAdapter(new ArrayList<>());
+        recyclerView.setAdapter(adapter);
+
+        recyclerView.post(() -> {
+            Log.d("LikedRecipes", "RecyclerView width: " + recyclerView.getWidth() + ", height " + recyclerView.getHeight());
+        });
 
         // observe VM
-        recipeViewModel.getListOfAllLikedRecipes().observe(getViewLifecycleOwner(), recipes -> {
+        recipeViewModel.getLikedRecipesByUserId(userId).observe(getViewLifecycleOwner(), recipes -> {
+            Log.d("LikedRecipes", "Recieved " + recipes.size() + " recipes for user " + userId);
             adapter.setRecipes(recipes);
         });
 

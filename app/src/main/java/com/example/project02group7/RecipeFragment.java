@@ -34,6 +34,9 @@ public class RecipeFragment extends Fragment {
             adapter = new RecipesPagerAdapter(getChildFragmentManager(), getLifecycle());
         }
 
+        viewPager.setAdapter(adapter);
+        viewPager.setSaveEnabled(false);
+
         // connect tabs
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             tab.setText(position == 0 ? "Liked" : "Saved");

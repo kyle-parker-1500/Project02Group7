@@ -99,12 +99,6 @@ public class HomeFragment extends Fragment {
             outerRecyclerView.scrollToPosition(indexToShow);
         }); 
 
-        // observe view model
-        // replaced this -> getViewLifecycleOwner()
-        recipeViewModel.getListOfAllRecipes().observe(getViewLifecycleOwner(), recipes -> {
-            adapter.submitList(recipes);
-        });
-
         likeButton.setOnClickListener(like -> {
             // get the repository
             repository = RecipeRepository.getRepository(requireActivity().getApplication());

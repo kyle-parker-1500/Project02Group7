@@ -20,7 +20,7 @@ public class UserSavedRecipesViewModel extends AndroidViewModel {
         repository = RecipeRepository.getRepository(application);
     }
 
-    public LiveData<List<UserSavedRecipes>> getListOfAllSavedRecipes() {
-        return repository.getAllUserSavedRecipes();
+    public LiveData<List<UserSavedRecipes>> getSavedRecipesByUserId(int userId) {
+        return repository.getSavedRecipesByUserId(userId);
     }
 }
