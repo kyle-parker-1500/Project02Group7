@@ -49,6 +49,7 @@ public class IntentFactoryTests {
 
     @Test
     public void loginPageActivityIntentFactoryTest(){
+        // get context for login page
         Context context = ApplicationProvider.getApplicationContext();
 
         Intent intent = LoginActivity.loginIntentFactory(context);

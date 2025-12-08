@@ -22,7 +22,7 @@ public class UserTest {
 
     @Test
     public void setterMethodsTest(){
-        User user = new User("Batista", "LaPasion");
+        User user = new User("Batista", "LaPasioN");
 
         user.setUsername("Dexter");
         user.setPassword("BayHarbor");
