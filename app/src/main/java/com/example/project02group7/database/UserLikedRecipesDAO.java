@@ -7,6 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.project02group7.database.entities.User;
 import com.example.project02group7.database.entities.UserLikedRecipes;
 
 import java.util.List;

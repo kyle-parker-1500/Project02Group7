@@ -2,7 +2,6 @@ package com.example.project02group7.viewHolders.recipesPage;
 
 import android.app.AlertDialog;
 import android.app.Application;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.project02group7.R;
 import com.example.project02group7.database.RecipeRepository;
 import com.example.project02group7.database.entities.UserLikedRecipes;
-import com.example.project02group7.databinding.ActivityLandingPageBinding;
 
 public class UserLikedRecipesViewHolder extends RecyclerView.ViewHolder {
     private final TextView title;
@@ -24,7 +22,7 @@ public class UserLikedRecipesViewHolder extends RecyclerView.ViewHolder {
     private final TextView instructions;
     private final Button deleteRecipeButton;
     private final RecipeRepository repository;
-    private UserLikedRecipes recipe;
+    private UserLikedRecipes recipes;
 
     private UserLikedRecipesViewHolder(@NonNull View recipeView) {
         super(recipeView);
@@ -37,20 +35,21 @@ public class UserLikedRecipesViewHolder extends RecyclerView.ViewHolder {
         deleteRecipeButton.setOnClickListener(v -> {
             new AlertDialog.Builder(recipeView.getContext())
                     .setTitle("Delete Recipe")
-                    .setMessage("Are you sure you want to delete: " + title + "?")
+                    .setMessage("Are you sure you want to delete: " + recipes.getTitle() + "?")
                     .setPositiveButton("Delete", (((dialog, which) -> {
-                        repository.deleteLikedRecipe(recipe);
-                        Toast.makeText(recipeView.getContext(), "Deleted " + recipe.getTitle(), Toast.LENGTH_SHORT).show();
+                        repository.deleteLikedRecipe(recipes);
+                        Toast.makeText(recipeView.getContext(), "Deleted " + recipes.getTitle(), Toast.LENGTH_SHORT).show();
                     })))
                     .setNegativeButton("Cancel", null)
                     .show();
         });
     }
 
-    public void bind(UserLikedRecipes recipe, int position) {
-        title.setText(recipe.getTitle());
-        ingredients.setText(recipe.getIngredients());
-        instructions.setText(recipe.getInstructions());
+    public void bind(UserLikedRecipes recipes, int position) {
+        this.recipes = recipes;
+        title.setText(recipes.getTitle());
+        ingredients.setText(recipes.getIngredients());
+        instructions.setText(recipes.getInstructions());
     }
 
     static UserLikedRecipesViewHolder create(ViewGroup parent) {

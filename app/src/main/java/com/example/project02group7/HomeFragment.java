@@ -30,8 +30,11 @@ import com.example.project02group7.viewHolders.RecipeViewModel;
 
 import java.lang.reflect.Array;
 import java.util.Objects;
+import java.util.Random;
 
 public class HomeFragment extends Fragment {
+    private static final String PREF_RANDOM_RECIPE_ID = "com.example.project02group7.PREF_RANDOM_RECIPE_ID";
+    private SharedPreferences sharedPreferences;
     RecipeRepository repository;
     @Nullable
     @Override
@@ -58,6 +61,44 @@ public class HomeFragment extends Fragment {
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(outerRecyclerView);
 
+        // randomize recipes sent to screen
+        sharedPreferences = requireContext().getSharedPreferences(
+                getString(R.string.preference_file_key), Context.MODE_PRIVATE
+        );
+
+        // observe view model
+        // replaced this -> getViewLifecycleOwner()
+        recipeViewModel.getListOfAllRecipes().observe(getViewLifecycleOwner(), recipes -> {
+            adapter.submitList(recipes);
+
+            int savedRecipeId = sharedPreferences.getInt(PREF_RANDOM_RECIPE_ID, -1);
+            int indexToShow = -1;
+
+            if(savedRecipeId != -1){
+                for(int i = 0; i < recipes.size(); i++){
+                    Recipe r = recipes.get(i);
+                    if (r.getId() == savedRecipeId) {
+                        indexToShow = i;
+                        break;
+                    }
+                }
+            }
+
+            if(indexToShow == -1){
+                if (!recipes.isEmpty()) {
+                    Random random = new Random();
+                    indexToShow = random.nextInt(recipes.size());
+                    Recipe chosen = recipes.get(indexToShow);
+
+                    sharedPreferences.edit()
+                            .putInt(PREF_RANDOM_RECIPE_ID, chosen.getId())
+                            .apply();
+                }
+            }
+
+            outerRecyclerView.scrollToPosition(indexToShow);
+        }); 
+
         // observe view model
         // replaced this -> getViewLifecycleOwner()
         recipeViewModel.getListOfAllRecipes().observe(getViewLifecycleOwner(), recipes -> {
@@ -69,21 +110,24 @@ public class HomeFragment extends Fragment {
             repository = RecipeRepository.getRepository(requireActivity().getApplication());
 
             // get shared preferences userId
-            SharedPreferences sharedPreferences = requireActivity().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            sharedPreferences = requireActivity().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
             LinearLayoutManager layoutManager = (LinearLayoutManager) outerRecyclerView.getLayoutManager();
             if (layoutManager != null) {
                 int position = layoutManager.findFirstVisibleItemPosition();
-                Recipe current = adapter.getCurrentList().get(position);
 
-                int recipeId = current.getId();
-                int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
-                String title = current.getTitle();
-                String ingredients = current.getIngredients();
-                String instructions = current.getInstructions();
+                if (position != RecyclerView.NO_POSITION && position >= 0 && position < adapter.getCurrentList().size()) {
+                    Recipe current = adapter.getCurrentList().get(position);
 
-                // add current recipe to liked recipes table
-                repository.insertUserLikedRecipes(new UserLikedRecipes(userId, recipeId, title, ingredients, instructions));
+                    int recipeId = current.getId();
+                    int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+                    String title = current.getTitle();
+                    String ingredients = current.getIngredients();
+                    String instructions = current.getInstructions();
+
+                    // add current recipe to liked recipes table
+                    repository.insertUserLikedRecipes(new UserLikedRecipes(userId, recipeId, title, ingredients, instructions));
+                }
             }
         });
         saveButton.setOnClickListener(save -> {
@@ -91,21 +135,24 @@ public class HomeFragment extends Fragment {
             repository = RecipeRepository.getRepository(requireActivity().getApplication());
 
             // getting currently logged in userId
-            SharedPreferences sharedPreferences = requireActivity().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            sharedPreferences= requireActivity().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
             LinearLayoutManager layoutManager = (LinearLayoutManager) outerRecyclerView.getLayoutManager();
             if (layoutManager != null) {
                 int position = layoutManager.findFirstVisibleItemPosition();
-                Recipe current = adapter.getCurrentList().get(position);
 
-                int recipeId = current.getId();
-                int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
-                String title = current.getTitle();
-                String ingredients = current.getIngredients();
-                String instructions = current.getInstructions();
+                if (position != RecyclerView.NO_POSITION && position >= 0 && position < adapter.getCurrentList().size()) {
+                    Recipe current = adapter.getCurrentList().get(position);
 
-                // add current recipe to liked recipes table
-                repository.insertUserSavedRecipes(new UserSavedRecipes(userId, recipeId, title, ingredients, instructions));
+                    int recipeId = current.getId();
+                    int userId = sharedPreferences.getInt(getString(R.string.preference_userId_key), -1);
+                    String title = current.getTitle();
+                    String ingredients = current.getIngredients();
+                    String instructions = current.getInstructions();
+
+                    // add current recipe to liked recipes table
+                    repository.insertUserSavedRecipes(new UserSavedRecipes(userId, recipeId, title, ingredients, instructions));
+                }
             }
         });
 

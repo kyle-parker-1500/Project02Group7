@@ -173,6 +173,24 @@ public class RecipeRepository {
     }
 
     /**
+     * Description: Gets all recipes liked by userId
+     * @param userId an Int
+     * @return LiveData<List<UserLikedRecipes>>
+     */
+    public LiveData<List<UserLikedRecipes>> getLikedRecipesByUserId(int userId) {
+        return userLikedRecipesDAO.getLikedRecipesByUserId(userId);
+    }
+
+    /**
+     * Description: Gets all recipes liked by userId
+     * @param userId an Int
+     * @return LiveData<List<UserSavedRecipes>>
+     */
+    public LiveData<List<UserSavedRecipes>> getSavedRecipesByUserId(int userId) {
+        return userSavedRecipesDAO.getSavedRecipesByUserId(userId);
+    }
+
+    /**
      * Description: Returns a recipe of type UserSavedRecipes that is at the specified recipeId
      * @param recipeId an int
      * @return LiveData<UserSavedRecipes>
@@ -210,6 +228,13 @@ public class RecipeRepository {
         return userLikedRecipesDAO.getAllUserLikedRecipes();
     }
 
+    /**
+     * Description: A method that returns a list of type LiveData that returns a list of all userSavedRecipes.
+     * @return LiveData<List<UserSavedRecipes>>
+     */
+    public LiveData<List<UserSavedRecipes>> getAllUserSavedRecipes() {
+        return userSavedRecipesDAO.getAllUserSavedRecipes();
+    }
     // gets recipe data by user id
     /**
      * Description: Returns a recipe of type Recipe that is at the specified userId
@@ -226,6 +251,15 @@ public class RecipeRepository {
     public void deleteLikedRecipe(UserLikedRecipes likedRecipe) {
         RecipeDatabase.databaseWriteExecutor.execute(() -> {
             userLikedRecipesDAO.delete(likedRecipe);
+        });
+    }
+
+    /**
+     * Description: Delete user saved recipe.
+     */
+    public void deleteSavedRecipe(UserSavedRecipes savedRecipe) {
+        RecipeDatabase.databaseWriteExecutor.execute(() -> {
+            userSavedRecipesDAO.delete(savedRecipe);
         });
     }
 }
