@@ -29,4 +29,7 @@
     <string name="account_fragment">Account Fragment</string>
     <string name="recipe_fragment">Recipe Fragment</string>
     <string name="settings_fragment">Settings Fragment</string>
+    <string name="search_fragment">Search fragment</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
 </resources>
